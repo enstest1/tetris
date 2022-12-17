@@ -1,0 +1,100 @@
+
+<html>
+<head>
+  <style>
+    /* Set up the play area */
+    #play-area {
+      width: 200px;
+      height: 400px;
+      border: 1px solid black;
+      position: relative;
+    }
+
+    /* Set up the blocks */
+    .block {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+    }
+
+    /* Set up the colors of the blocks */
+    .color1 { background-color: red; }
+    .color2 { background-color: green; }
+    .color3 { background-color: blue; }
+    .color4 { background-color: yellow; }
+    .color5 { background-color: cyan; }
+    .color6 { background-color: purple; }
+    .color7 { background-color: white; }
+  </style>
+</head>
+<body>
+  <!-- Set up the play area -->
+  <div id="play-area"></div>
+
+  <script>
+    // Set up the block shapes
+    const shapes = [
+      [[1, 1, 1],
+       [0, 1, 0]],
+
+      [[0, 2, 2],
+       [2, 2, 0]],
+
+      [[3, 3, 0],
+       [0, 3, 3]],
+
+      [[4, 0, 0],
+       [4, 4, 4]],
+
+      [[0, 0, 5],
+       [5, 5, 5]],
+
+      [[6, 6, 6, 6]],
+
+      [[7, 7],
+       [7, 7]]
+    ]
+
+    // Set up the play area
+    const playArea = document.getElementById("play-area")
+    const blockSize = 20
+    const areaWidth = 10
+    const areaHeight = 20
+    let area = []
+    for (let y = 0; y < areaHeight; y++) {
+      area.push(new Array(areaWidth).fill(0))
+    }
+
+    // Set up the current block
+    let currentBlock = null
+    let currentX = 0
+    let currentY = 0
+
+    // Set up the speed of the game
+    const speed = 1000
+
+    // Set up the game loop
+    function update() {
+      // Update the play area
+      if (currentBlock) {
+        for (let y = 0; y < currentBlock.length; y++) {
+          for (let x = 0; x < currentBlock[y].length; x++) {
+            if (currentBlock[y][x] !== 0) {
+              area[currentY + y][currentX + x] = currentBlock[y][x]
+            }
+          }
+        }
+      }
+
+      // Check for completed rows
+      for (let y = 0; y < areaHeight; y++) {
+        if (area[y].every(x => x !== 0)) {
+          // Remove the completed row
+          area.splice(y, 1)
+          area.unshift(new Array(areaWidth).fill(0))
+        }
+      }
+
+      // Draw the play area
+      playArea.innerHTML = ""
+      for (let y = 0
